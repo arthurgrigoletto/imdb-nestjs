@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  redis:
+    image: redis:5.0.6-alpine
+    container_name: redis-imdb
+    tty: true
+    ports:
+      - '6379:6379'
+  postgres:
+    image: postgres
+    container_name: postgres-imdb
+    tty: true
+    volumes:
+      - .pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=imdb
+      - POSTGRES_USER=docker
+      - POSTGRES_PORT=5432
+    ports:
+      - '5432:5432'
