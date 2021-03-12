@@ -9,11 +9,14 @@ import {
   ClassSerializerInterceptor,
 } from '@nestjs/common';
 
-import { JwtAuthGuard } from '@modules/users/providers/AuthProvider/guards/JwtAuth.guard';
+import { HasRoles } from '@shared/infra/http/decorators/roles.decorators';
+import { RolesGuard } from '@shared/infra/http/guards/Roles.guard';
+import { JwtAuthGuard } from '@shared/infra/http/guards/JwtAuth.guard';
+import { Role } from '@shared/utils/role.enum';
 import { ShowProfileService } from '@modules/users/services/ShowProfileService.service';
-import { User } from '../typeorm/entities/User.entity';
-import { UpdateUserDto } from './dtos/UpdateUserDTO';
+import { User } from '@modules/users/infra/typeorm/entities/User.entity';
 import { UpdateUserService } from '@modules/users/services/UpdateUserService.service';
+import { UpdateUserDto } from '../dtos/UpdateUserDTO';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('profile')
@@ -23,7 +26,8 @@ export class ProfileController {
     private readonly updateUserService: UpdateUserService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @HasRoles(Role.ADMIN)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   public async findOne(@Request() req: any): Promise<User> {
     const user = await this.showProfileService.execute({ userId: req.user.id });

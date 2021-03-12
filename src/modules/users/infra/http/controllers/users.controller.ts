@@ -5,9 +5,9 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { User } from '../typeorm/entities/User.entity';
+import { User } from '@modules/users/infra/typeorm/entities/User.entity';
 import { CreateUserService } from '@modules/users/services/CreateUserService.service';
-import { CreateUserDTO } from './dtos/CreateUserDTO';
+import { CreateUserDTO } from '../dtos/CreateUserDTO';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')

@@ -2,14 +2,10 @@ import { v4 as uuid } from 'uuid';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import { User } from '@modules/users/infra/typeorm/entities/User.entity';
-import { CreateUserDTO } from '@modules/users/infra/http/dtos/CreateUserDTO';
+import { CreateUserDatabaseDTO } from '@modules/users/infra/http/dtos/CreateUserDTO';
 
 export class FakeUsersRepository implements IUsersRepository {
   private users: User[] = [];
-
-  public async findAll(): Promise<User[]> {
-    return this.users;
-  }
 
   public async findById(id: string): Promise<User | undefined> {
     return this.users.find((user) => user.id === id);
@@ -19,7 +15,7 @@ export class FakeUsersRepository implements IUsersRepository {
     return this.users.find((user) => user.email === email);
   }
 
-  public async create(userData: CreateUserDTO): Promise<User> {
+  public async create(userData: CreateUserDatabaseDTO): Promise<User> {
     const user = new User();
 
     Object.assign(user, { id: uuid() }, userData);

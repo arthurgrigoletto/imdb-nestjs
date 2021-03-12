@@ -1,8 +1,8 @@
 import { Controller, Post, UseGuards, Request } from '@nestjs/common';
 
-import { LocalAuthGuard } from '@modules/users/providers/AuthProvider/guards/LocalAuth.guard';
+import { LocalAuthGuard } from '@shared/infra/http/guards/LocalAuth.guard';
 import { AuthenticateUserService } from '@modules/users/services/AuthenticateUserService.service';
-import { User } from '../typeorm/entities/User.entity';
+import { User } from '@modules/users/infra/typeorm/entities/User.entity';
 
 @Controller('sessions')
 export class SessionController {
